@@ -11,9 +11,11 @@ public class TesteInsercao {
 	public static void main(String[] args) throws SQLException {
 		String sql;
 
+		ConnectionPool db = new ConnectionPool();
+
 		sql = "INSERT INTO PRODUTO (nome, descricao) VALUES(?, ?)";
 
-		try (Connection connection = Database.getConnection()) {
+		try (Connection connection = db.getConnection()) {
 			connection.setAutoCommit(false);
 
 			try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
