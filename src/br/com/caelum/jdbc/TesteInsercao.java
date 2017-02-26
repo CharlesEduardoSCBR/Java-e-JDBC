@@ -13,14 +13,14 @@ public class TesteInsercao {
 
 		sql = "INSERT INTO PRODUTO (nome, descricao) VALUES(?, ?)";
 
-		Connection connection = Database.getConnection();
-		PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		try (Connection connection = Database.getConnection()) {
+			try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-		adiciona("TV LCS", "32 polegadas", statement);
-		adiciona("Blueray", "Full HDMI", statement);
+				adiciona("TV LCS", "32 polegadas", statement);
+				adiciona("Blueray", "Full HDMI", statement);
 
-		statement.close();
-		connection.close();
+			}
+		}
 	}
 
 	private static void adiciona(String nome, String descricao, PreparedStatement statement) throws SQLException {
@@ -34,14 +34,13 @@ public class TesteInsercao {
 
 		boolean resultado = statement.execute();
 
-		ResultSet resultSet = statement.getGeneratedKeys();
+		try (ResultSet resultSet = statement.getGeneratedKeys()) {
 
-		while (resultSet.next()) {
-			System.out.println("id = " + resultSet.getString("id"));
+			while (resultSet.next()) {
+				System.out.println("id = " + resultSet.getString("id"));
+			}
+
+			System.out.println(resultado);
 		}
-
-		System.out.println(resultado);
-
-		resultSet.close();
 	}
 }
