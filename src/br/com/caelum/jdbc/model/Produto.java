@@ -5,9 +5,9 @@ public class Produto {
 	Integer id;
 	String descricao;
 	String nome;
-	
-	Produto(){
-		
+
+	public Produto() {
+		super();
 	}
 
 	public Produto(String descricao, String nome) {
@@ -34,5 +34,9 @@ public class Produto {
 
 	public Integer getId() {
 		return id;
+	}
+	
+	public void setId(Integer id){
+		this.id = id;
 	}
 }

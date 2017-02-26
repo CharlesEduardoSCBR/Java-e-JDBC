@@ -1,20 +1,27 @@
 package br.com.caelum.jdbc;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import br.com.caelum.jdbc.model.Produto;
 import br.com.caelum.jdbc.persistence.dao.ProdutoDAO;
 
-public class TestaInsercaoProduto {
+public class TestaListarProdutos {
 
 	public static void main(String[] args) {
-		Produto p1 = new Produto("Mesa Azul", "Mesa com 4 pés");
 		ProdutoDAO dao = new ProdutoDAO();
+		List<Produto> lista;
+		
 		try {
-			dao.salva(p1);
+			lista = dao.listaProdutos();
+			
+			for (Produto produto : lista) {
+				System.out.println(produto);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 }
