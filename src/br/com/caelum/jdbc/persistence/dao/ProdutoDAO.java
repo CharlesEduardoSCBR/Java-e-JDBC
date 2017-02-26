@@ -9,9 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.caelum.jdbc.ConnectionPool;
+import br.com.caelum.jdbc.model.Categoria;
 import br.com.caelum.jdbc.model.Produto;
 
 public class ProdutoDAO {
+	
+	Connection con;
+
+	public ProdutoDAO(Connection con) {
+		this.con = con;
+	}
 
 	public void salva(Produto salva) throws SQLException {
 		String sql = "INSERT INTO PRODUTO (nome, descricao) VALUES(?, ?)";
@@ -51,6 +58,19 @@ public class ProdutoDAO {
 
 		try (Connection con = new ConnectionPool().getConnection()) {
 			try (PreparedStatement stmt = con.prepareStatement(buscalistaProdutos)) {
+				stmt.execute();
+				transformaResultadoEmProdutos(listaProdutos, stmt);
+			}
+		}
+		return listaProdutos;
+	}
+	
+	public List<Produto> listaProdutosPor(Categoria categoria) throws SQLException{
+		String querySQL = "select * from Produto where categoria_id = ?";
+		List<Produto> listaProdutos = new ArrayList<>();
+		try(Connection con = new ConnectionPool().getConnection()){
+			try(PreparedStatement stmt = con.prepareStatement(querySQL)){
+				stmt.setInt(1, categoria.getId());
 				stmt.execute();
 				transformaResultadoEmProdutos(listaProdutos, stmt);
 			}

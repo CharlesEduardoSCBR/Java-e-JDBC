@@ -9,7 +9,7 @@ public class TestaInsercaoProduto {
 
 	public static void main(String[] args) {
 		Produto p1 = new Produto("Mesa Azul", "Mesa com 4 pés");
-		ProdutoDAO dao = new ProdutoDAO();
+		ProdutoDAO dao = new ProdutoDAO(null);
 		try {
 			dao.salva(p1);
 		} catch (SQLException e) {

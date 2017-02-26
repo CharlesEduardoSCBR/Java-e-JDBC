@@ -9,7 +9,7 @@ import br.com.caelum.jdbc.persistence.dao.ProdutoDAO;
 public class TestaListarProdutos {
 
 	public static void main(String[] args) {
-		ProdutoDAO dao = new ProdutoDAO();
+		ProdutoDAO dao = new ProdutoDAO(null);
 		List<Produto> lista;
 		
 		try {
