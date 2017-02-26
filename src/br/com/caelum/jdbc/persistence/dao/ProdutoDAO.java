@@ -52,19 +52,23 @@ public class ProdutoDAO {
 		try (Connection con = new ConnectionPool().getConnection()) {
 			try (PreparedStatement stmt = con.prepareStatement(buscalistaProdutos)) {
 				stmt.execute();
-
-				try (ResultSet resultSet = stmt.getResultSet()) {
-					while (resultSet.next()) {
-						Produto produto = new Produto();
-
-						produto.setId(resultSet.getInt("id"));
-						produto.setNome(resultSet.getString("nome"));
-						produto.setDescricao(resultSet.getString("descricao"));
-						listaProdutos.add(produto);
-					}
-				}
+				transformaResultadoEmProdutos(listaProdutos, stmt);
 			}
 		}
 		return listaProdutos;
+	}
+
+	private void transformaResultadoEmProdutos(List<Produto> listaProdutos, PreparedStatement stmt)
+			throws SQLException {
+		try (ResultSet resultSet = stmt.getResultSet()) {
+			while (resultSet.next()) {
+				Produto produto = new Produto();
+
+				produto.setId(resultSet.getInt("id"));
+				produto.setNome(resultSet.getString("nome"));
+				produto.setDescricao(resultSet.getString("descricao"));
+				listaProdutos.add(produto);
+			}
+		}
 	}
 }
