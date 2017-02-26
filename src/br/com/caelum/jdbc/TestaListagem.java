@@ -9,7 +9,7 @@ import java.sql.Statement;
 public class TestaListagem {
 	
 	public static void main(String[] args) throws SQLException {
-		Connection connection = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/loja-virtual", "SA", "");
+		Connection connection = Database.getConnection();
 		Statement statement = connection.createStatement();
 		boolean resultado = statement.execute("insert into Produto (nome, descricao) values ('Notebook', 'Notebook i5')");
 		System.out.println("O resultado foi: " + resultado);
