@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.caelum.jdbc.model.Categoria;
+import br.com.caelum.jdbc.model.Produto;
 
 public class CategoriaDAO {
 
@@ -19,18 +20,31 @@ public class CategoriaDAO {
 	
 	public List<Categoria> lista() throws SQLException {
 		List<Categoria> listaCategoria = new ArrayList<>();
-		String buscalistaProdutos = "SELECT * FROM Categoria";
 		
+		String querySQL = "SELECT C.ID AS C_ID, C.NOME AS C_NOME, P.ID AS P_ID, P.NOME AS P_NOME, P.DESCRICAO AS P_DESCRICAO FROM CATEGORIA AS C JOIN PRODUTO AS P ON P.CATEGORIA_ID = C.ID";
 		try (Connection con = this.con) {
-			try (PreparedStatement stmt = con.prepareStatement(buscalistaProdutos)) {
+			try (PreparedStatement stmt = con.prepareStatement(querySQL)) {
 				stmt.execute();
 
 				try (ResultSet rs = stmt.getResultSet()) {
-					while (rs.next()) {
-						Categoria categoria = new Categoria();
-						categoria.setId(rs.getInt("id"));
-						categoria.setNome(rs.getString("nome"));
-						listaCategoria.add(categoria);
+					Categoria ultimaCategoria = null;
+					
+					while (rs.next()) {						
+						int id = rs.getInt("c_id");
+						String nome = rs.getString("c_nome");
+						
+						if(ultimaCategoria == null || !ultimaCategoria.getNome().equals(nome)){
+							Categoria categoria = new Categoria(id, nome);
+							listaCategoria.add(categoria);
+							ultimaCategoria = categoria;
+						}
+						
+						Produto produto = new Produto();
+						produto.setId(rs.getInt("p_id"));
+						produto.setNome(rs.getString("p_nome"));
+						produto.setDescricao(rs.getString("p_descricao"));
+						
+						ultimaCategoria.adiciona(produto);
 					}
 				}
 			}

@@ -18,7 +18,7 @@ public class TestaCategorias {
 
 			for (Categoria categoria : categorias) {
 				System.out.println(categoria.getNome());
-				for(Produto produto : new ProdutoDAO(con).listaProdutosPor(categoria)){
+				for(Produto produto : categoria.getProdutos()){
 					System.out.println(produto.getNome());
 				}
 			}

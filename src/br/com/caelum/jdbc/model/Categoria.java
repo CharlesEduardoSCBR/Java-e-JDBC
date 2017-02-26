@@ -1,16 +1,20 @@
 package br.com.caelum.jdbc.model;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Categoria {
 
 	private Integer id;
 	private String nome;
+	private final List<Produto> produtos = new ArrayList<>();
 
 	public Categoria() {
 		super();
 	}
 
 	public Categoria(Integer id, String nome) {
-		super();
 		this.id = id;
 		this.nome = nome;
 	}
@@ -29,6 +33,14 @@ public class Categoria {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
+
+	public void adiciona(Produto produto) {
+		this.produtos.add(produto);
 	}
 
 }
