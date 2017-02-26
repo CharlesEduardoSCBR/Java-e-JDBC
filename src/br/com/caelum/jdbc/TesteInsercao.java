@@ -14,17 +14,25 @@ public class TesteInsercao {
 		sql = "INSERT INTO PRODUTO (nome, descricao) VALUES(?, ?)";
 
 		try (Connection connection = Database.getConnection()) {
+			connection.setAutoCommit(false);
+
 			try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
 				adiciona("TV LCS", "32 polegadas", statement);
 				adiciona("Blueray", "Full HDMI", statement);
 
+				connection.commit();
+
+			} catch (Exception ex) {
+				connection.rollback();
+
+				System.out.println("Transação para inserir produto não efetudas");
+				ex.printStackTrace();
 			}
 		}
 	}
 
 	private static void adiciona(String nome, String descricao, PreparedStatement statement) throws SQLException {
-
 		if (nome.equals("Blueray")) {
 			throw new IllegalArgumentException("Problema ocorrido");
 		}
