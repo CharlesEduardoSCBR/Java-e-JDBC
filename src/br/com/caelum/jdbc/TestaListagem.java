@@ -11,17 +11,9 @@ public class TestaListagem {
 	public static void main(String[] args) throws SQLException {
 		Connection connection = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/loja-virtual", "SA", "");
 		Statement statement = connection.createStatement();
-		boolean resultado = statement.execute("select * from Produto");
-		ResultSet resultSet = statement.getResultSet();
-		
-		while (resultSet.next()) {
-			int id = resultSet.getInt("id");
-			String nome = resultSet.getString("nome");
-			String descricao = resultSet.getString("descricao");
-			System.out.println("id=" + id + ", nome=" + nome + ", descricao=" + descricao);
-		}
-		
-		resultSet.close();
+		boolean resultado = statement.execute("insert into Produto (nome, descricao) values ('Notebook', 'Notebook i5')");
+		System.out.println("O resultado foi: " + resultado);
+
 		statement.close();
 		connection.close();
 	}
