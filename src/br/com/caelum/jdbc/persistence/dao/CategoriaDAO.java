@@ -21,7 +21,7 @@ public class CategoriaDAO {
 	public List<Categoria> lista() throws SQLException {
 		List<Categoria> listaCategoria = new ArrayList<>();
 		
-		String querySQL = "SELECT C.ID AS C_ID, C.NOME AS C_NOME, P.ID AS P_ID, P.NOME AS P_NOME, P.DESCRICAO AS P_DESCRICAO FROM CATEGORIA AS C JOIN PRODUTO AS P ON P.CATEGORIA_ID = C.ID";
+		String querySQL = "SELECT C.ID AS C_ID, C.NOME AS C_NOME, P.ID AS P_ID, P.NOME AS P_NOME, P.DESCRICAO AS P_DESCRICAO FROM CATEGORIA AS C JOIN PRODUTO AS P ON P.CATEGORIA_ID = C.ID ORDER BY C.ID";
 		try (Connection con = this.con) {
 			try (PreparedStatement stmt = con.prepareStatement(querySQL)) {
 				stmt.execute();
