@@ -10,17 +10,21 @@ import java.sql.Statement;
 public class TesteInsercao {
 
 	public static void main(String[] args) throws SQLException {
-		String nome;
-		String descricao;
 		String sql;
 		
-		nome = "Notebook";
-		descricao = "Sony Vaio i7's";
 		sql = "INSERT INTO PRODUTO (nome, descricao) VALUES(?, ?)";
 		
 		Connection connection = Database.getConnection();
 		PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
+		adiciona("TV LCS", "32 polegadas", statement);
+		adiciona("Blueray", "Full HDMI", statement);
+		
+		statement.close();
+		connection.close();
+	}
+
+	private static void adiciona(String nome, String descricao, PreparedStatement statement) throws SQLException {
 		statement.setString(1, nome);
 		statement.setString(2, descricao);
 		
@@ -35,7 +39,5 @@ public class TesteInsercao {
 		System.out.println(resultado);
 		
 		resultSet.close();
-		statement.close();
-		connection.close();
 	}
 }
